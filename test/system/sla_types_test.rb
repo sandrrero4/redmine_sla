@@ -70,10 +70,13 @@ class SlaTypesHelperSystemTest < ApplicationSlaSystemTestCase
     visit '/sla/types/new'
     within('form#sla-type-form') do
       fill_in 'sla_type_name', :with => sla_type_name
-      find('input[name=commit]').click
     end
+    # Use click_button with visible label — find('input[name=commit]') unreliable in headless Chrome
+    click_button l('sla_label.sla_type.new')
 
-    # find created issue
+    assert_current_path sla_types_path
+
+    # Query DB after redirect is confirmed (server connection has committed)
     sla_type = SlaType.find_by_name(sla_type_name)
     assert_kind_of SlaType, sla_type
 
@@ -81,11 +84,6 @@ class SlaTypesHelperSystemTest < ApplicationSlaSystemTestCase
     find 'div#flash_notice',
       :visible => true,
       :text => l("sla_label.sla_type.notice_successful_create", :id => "##{sla_type.id}" )
-    assert_equal sla_types_path, current_path
-
-    # TODO : check SlaTypes#show
-    # visit "/sla/type/#{sla_types.id}"
-    # compate sla_types attributs
 
     # check issue attributes
     assert_equal sla_type_name, sla_type.name

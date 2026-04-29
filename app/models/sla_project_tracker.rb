@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# File: redmine_sla/app/models/sla_project_tracker.rb
 # Redmine SLA - Redmine's Plugin 
 #
 # This program is free software; you can redistribute it and/or
@@ -31,8 +32,6 @@ class SlaProjectTracker < ActiveRecord::Base
 
   extend Redmine::I18n
   include Redmine::SafeAttributes
-
-  default_scope { joins(:tracker) }  
 
   validates_presence_of :project
   validates_presence_of :tracker

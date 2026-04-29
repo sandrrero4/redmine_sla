@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# File: redmine_sla/app/models/sla_priority_scf.rb
+# Redmine SLA - Redmine's Plugin 
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -32,10 +32,10 @@ class SlaPriorityScf < SlaPriority
 
   # For display one SlaPriorityScf by priority_id in IssueHelper
   def find_by_priority_id(priority_id)
-    # TODO : LOG : on ActiveRecord::RecordNotFound si find et nil si find_by
     return nil if priority_id.nil?
-    priority = @scf.enumerations.active.find(priority_id) 
-    self.create_value(priority.id,priority.name)
+    priority = @scf.enumerations.active.find_by(id: priority_id)
+    return nil if priority.nil?
+    self.create_value(priority.id, priority.name)
   end
   
   # For display all SlaPriority in SlaLevel views after self.create ( base on all values of the CustomField )
